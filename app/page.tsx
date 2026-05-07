@@ -125,7 +125,18 @@ export default function Home() {
 
       const url = window.URL.createObjectURL(blob)
 
-      window.open(url)
+      // fix for mobile + desktop
+      const a = document.createElement('a')
+      a.href = url
+      a.target = '_blank'
+      a.download = `${type}-${Date.now()}.pdf`
+
+      document.body.appendChild(a)
+      a.click()
+
+      document.body.removeChild(a)
+
+      window.URL.revokeObjectURL(url)
 
     } catch (error) {
 
